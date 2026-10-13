@@ -666,7 +666,7 @@ function discover(t){
     <div class="amt"><span class="pearl"></span>+${reward}</div>
     ${t===MAX_TIER?`<p style="color:var(--gold)">This is the star animal of the ${TANK.name}. Tap the exhibit name above your animals to open the next exhibit.</p>`:""}
     <div class="mbtns"><button class="buy" data-act="close">Keep merging</button></div>`, ()=>{ sfx.fanfare(); buzz("heavy"); });
-  if (t===5 && !S.starter && !S.starterOffered){ S.starterOffered=true; queueModal(starterOfferHtml); }
+  if (t===5 && !S.starter && !S.starterOffered && !WEB_ONLY){ S.starterOffered=true; queueModal(starterOfferHtml); }
 }
 
 function tapCell(i, auto){
@@ -963,6 +963,8 @@ function dailyModalHtml(){
 }
 
 /* ---------- Store / purchases ---------- */
+/* On a plain website (window.CRITTER_WEB_ONLY) real-money items are hidden; gems are still earned by playing. */
+const WEB_ONLY = !!window.CRITTER_WEB_ONLY && !window.CdvPurchase;
 const IAP = {
   native:false, prices:{},
   init(){
@@ -1147,6 +1149,9 @@ function renderSheet(){
   }
   if (k==="shop"){
     h += `<div class="sec">Spend gems</div>` + PEARL_ITEMS.map(pearlRow).join("");
+    if (WEB_ONLY){
+      h += `<p class="note">Gems come from quests, daily visits, new animals and golden butterflies. Gem packs and the VIP Pass are coming to the iPhone app.</p>`;
+    } else {
     h += `<div class="sec">Gems & passes</div>`;
     for (const p of PRODUCTS){
       if (p.once && S.starter) continue;
@@ -1156,6 +1161,7 @@ function renderSheet(){
     }
     h += `<button class="link" data-act="restore">Restore purchases</button>`;
     h += `<p class="note">Purchases are optional. Every animal, upgrade and row can be earned by playing.${IAP.native?"":" This web preview never charges you."}</p>`;
+    }
   }
   b.innerHTML=h;
 }
