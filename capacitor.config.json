@@ -1,0 +1,17 @@
+{
+  "appId": "com.zacharyelam.crittercollector",
+  "appName": "Critter Collector",
+  "webDir": "www",
+  "backgroundColor": "#0b1810",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#0b1810",
+    "scrollEnabled": false
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "DARK",
+      "overlaysWebView": true
+    }
+  }
+}
